@@ -1,3 +1,7 @@
 *.log
 *.raw
 *.net
+
+# Somebody else's material\
+# use the get_models.sh to wget it
+dmtriodep.inc

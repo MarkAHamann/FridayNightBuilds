@@ -59,7 +59,7 @@ The first thing to do is to rewrite the integer as the sum of a multiple of 10 p
 -8 is -20 + 12
 ```
 
-See what's going on? First number is a multiple of 10, and the second is a multiple of 3.
+See what's going on? First number is a multiple of 10, and the second is a multiple of 3. Pick some random integers and express them as the sum of a multiple of 10 and a low multiple of 3. You'll see that it's pretty easy.
 
 ## The Multiple of 10
 
@@ -71,8 +71,81 @@ The great thing about multiples of 10 is that they are just ways of moving the d
 
 ## The multiple of 3
 
-Now, take the multiple of 3 and divide by 3. Sop 6 becomes 2. -9 becomes -3.
+Now, take the multiple of 3 and divide by 3. So 6 becomes 2. -9 becomes -3.
 
+Do you recall your powers of 2? Let's just refresh them:
+```
+-4: 0.0625
+-3: 0.125
+-2: 0.25
+-1: 0.5
+0: 1
+1: 2
+2: 4
+3: 8
+4: 16
+5: 32
+```
 
+## Combining them
+So now it's just a matter of taking the power of 2 you got from the multiple of 3 and adjusting the decimal point with the power of ten. There are a few ways to do this quickly in your head and I invite you to play in you head and decide the easiest way for you to multiply the power of 10 with the power of 2 accurately. I like to start with the multiple of ten and double or halve the appropriate number of times.
+
+So let's take 14dB. 14 is 20 - 6. So the 20 means we start at 100 and -6 means we halve twice. A quarter of 100 is 25. So 14dB is 25x.
+
+Wow! That was easy, no? And you didn't need to whip out your calculator! I do need to warn you a warning a cetain yoga instructor told us after showing us a particular difficult pose--these are not party tricks. But if you pick up some cutie by converting dB into a multiplier--well all's fair in love and war.
 
 # Multiplier to dB
+
+You can use the same technique going back from a multiplier to dB, but I have a slightly different method. The dB to multiplier method is easy for me, but I do have to keep track of the decimal point. My prefered way to go the other makes the decimal point something I don't have to worry about. Again YMMV and id you think my method is stupid and a variant is much better, then absolutely use the easier one. The point of these exercises is to enable compenent use of dB doing conversion quickly in your head without needing a calculator. The method that maximizes your ability to do that is the method you want to use for yourself.
+
+So say you have a number that is a multiplier that you want to convert to dB...
+
+## Ab.c dB
+
+My method for finding Ab.c dB is outlined here. Note that the `c` part is sort of optional and depends on a linear interpolation.
+
+Finding the A part is simple. Take your multiplier and round donw to the nearest power of 10. Count the number of 0's. If the number is less than one, make the number negative and count the zero to the left of the decimal point. If you studied logarithms at all, this should be pretty intuitive.
+
+The next part needs a little explanation but is really easy once you see the pattern. Now that we have `A` we don't need to worry about the exponent part of the mantissa. It's just all mantissa. And for that we have the left justified sig figs of the powers of 2 in a decade. I use -4 to 5. So let's write out the sig figs without the exponent for -4 to 5. You'll see what's going on, I swear:
+
+```
+625
+125
+25
+5
+1
+2
+4
+8
+16
+32
+```
+So, what you want to do is sort of rearrange this list in your head to this.
+
+```
+1
+125
+16
+2
+25
+32
+4
+5
+625
+8
+10
+```
+
+Now find the left justified mantissa that is lower than your number in this list. The ordering method is a little weird, but you'll get used to it quickly. Also find the next higher number.
+
+So now, you have these 2 numbers. So you know the exponent you raise 2 to get those numbers, right. So if your number was 42000, then it's a little higher than 4 and and little less than 5, right?
+
+4 is 2^2 and 5 is 2^-1.
+
+Now take the exponents> 2 and -1, in this example. And multiply them by 3. If the number is negative, add 10 until it's positive again.
+
+Got that number? The ones digit is `b`.
+
+OK, that result to get `b` is pretty unintuitive. I'll make a slide rule video that shows this, though.
+
+If you want `c` then it's pretty reasonable to do a linear interpolation. The nice thing about dB is that the resolution at integer level is good enough for calculations you're doing in your head without use of a calculator. But if you really want a little more resolution, then you can do an interpolation with 2 digits of the the list above, and the 2 most signifacant digits, you can do a pretty reasonable `c`.
